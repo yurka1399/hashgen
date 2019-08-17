@@ -5,16 +5,20 @@ import (
 	"encoding/hex"
 	"fmt"
 	"hash"
+	"sync"
 )
 
 // HashGenerator Class
 type HashGenerator struct {
 	key  string
 	algo hash.Hash
+	mu   sync.Mutex
 }
 
 // Generate generates hash from string passd in toHash
 func (h *HashGenerator) Generate(toHash string) string {
+	h.mu.Lock()
+	defer h.mu.Unlock()
 	h.algo.Write([]byte(fmt.Sprintf("%s%s", toHash, h.key)))
 	return hex.EncodeToString(h.algo.Sum(nil))
 }
