@@ -19,6 +19,7 @@ type HashGenerator struct {
 func (h *HashGenerator) Generate(toHash string) string {
 	h.mu.Lock()
 	defer h.mu.Unlock()
+	h.algo.Reset()
 	h.algo.Write([]byte(fmt.Sprintf("%s%s", toHash, h.key)))
 	return hex.EncodeToString(h.algo.Sum(nil))
 }
