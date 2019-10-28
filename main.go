@@ -10,9 +10,9 @@ import (
 
 // HashGenerator Class
 type HashGenerator struct {
+	mu   sync.Mutex
 	key  string
 	algo hash.Hash
-	mu   sync.Mutex
 }
 
 // Generate generates hash from string passd in toHash
